@@ -82,16 +82,16 @@ func loadAPI(subreddit string, outCh chan *imageLoadRequest) {
 			}
 		}()
 		url = mustGetString(v, "data", "preview", "images", "[0]", "source", "url")
-		height := mustGetInt(v, "data", "preview", "images", "[0]", "source", "height")
+		//height := mustGetInt(v, "data", "preview", "images", "[0]", "source", "height")
 		width := mustGetInt(v, "data", "preview", "images", "[0]", "source", "width")
 		if width < *minWidth {
 			return
 		}
-		ratio := float64(width) / float64(height)
-		if ratio < 1.5 || ratio > 2 {
-			//log.Printf("Ignoring %v because ratio %v(%vx%v) is not allowed", url, ratio, height, width)
-			return
-		}
+		//ratio := float64(width) / float64(height)
+		//if ratio < 1.5 || ratio > 2 {
+		//	//log.Printf("Ignoring %v because ratio %v(%vx%v) is not allowed", url, ratio, height, width)
+		//	return
+		//}
 		outCh <- &imageLoadRequest{
 			imageURL:  url,
 			imageID:   id,
