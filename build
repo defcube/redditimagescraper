@@ -1,0 +1,19 @@
+#!/bin/sh -e
+
+echo "Starting build process"
+go install ./...
+echo "Installed binary"
+
+go test ./...
+echo "Done tests"
+
+go get -u github.com/alecthomas/gometalinter
+go install github.com/alecthomas/gometalinter
+echo "Updated Metalinter"
+
+echo "Updated Gometalinter"
+gometalinter --install > /dev/null
+
+# gometalinter is excluding gotype because it falsely thinks vendored packages don't exist
+gometalinter --aggregate --deadline=60s --vendor -enable=testify ./...
+echo "Done metalinter"

@@ -1,0 +1,14 @@
+hash: 19cd51c1d19ca059512c14aede0c10addae686e7a381bb26bdaf3e3b72e9e9fa
+updated: 2018-02-05T21:00:18.934398-08:00
+imports:
+- name: github.com/alecthomas/kingpin
+  version: 947dcec5ba9c011838740e680966fd7087a71d0d
+- name: github.com/alecthomas/template
+  version: a0175ee3bccc567396460bf5acd36800cb10c49c
+  subpackages:
+  - parse
+- name: github.com/alecthomas/units
+  version: 2efee857e7cfd4f3d0138cc3cbb1b4966962b93a
+- name: github.com/buger/jsonparser
+  version: 4be68c93a24430ddf9c33d1380b7042fd3a13424
+testImports: []
