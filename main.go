@@ -69,7 +69,7 @@ type imageLoadRequest struct {
 }
 
 func loadAPI(subreddit string, outCh chan *imageLoadRequest) {
-	url := fmt.Sprintf("http://reddit.com/r/%v/top/.json?limit=500&t=week", subreddit)
+	url := fmt.Sprintf("http://reddit.com/r/%v/top/.json?limit=2000&t=week", subreddit)
 	apiB, err := httpGet(url)
 	if err != nil {
 		log.Panicf("Error loading the API: %v", err)
