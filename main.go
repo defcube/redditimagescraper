@@ -18,6 +18,7 @@ var (
 	outPath             = kingpin.Arg("outpath", "Directory where images will be saved").Required().ExistingDir()
 	client              = http.Client{Timeout: 30 * time.Second}
 	minWidth            = kingpin.Flag("minwidth", "Minimum width for an image to be downloaded").Default("4000").Int64()
+	minHeight            = kingpin.Flag("minheight", "Minimum height for an image to be downloaded").Default("2000").Int64()
 	subreddits          = kingpin.Arg("subreddits", "Subreddit urls on reddit").Required().Strings()
 )
 
@@ -82,9 +83,9 @@ func loadAPI(subreddit string, outCh chan *imageLoadRequest) {
 			}
 		}()
 		url = mustGetString(v, "data", "preview", "images", "[0]", "source", "url")
-		//height := mustGetInt(v, "data", "preview", "images", "[0]", "source", "height")
+		height := mustGetInt(v, "data", "preview", "images", "[0]", "source", "height")
 		width := mustGetInt(v, "data", "preview", "images", "[0]", "source", "width")
-		if width < *minWidth {
+		if width < *minWidth || height < *minHeight {
 			return
 		}
 		//ratio := float64(width) / float64(height)
