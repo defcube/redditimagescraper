@@ -92,6 +92,7 @@ func loadAPI(subreddit string, outCh chan *imageLoadRequest) {
 			//log.Printf("Ignoring %v because ratio %v(%vx%v) is not allowed", url, ratio, height, width)
 			return
 		}
+		log.Println(url)
 		outCh <- &imageLoadRequest{
 			imageURL:  url,
 			imageID:   id,
