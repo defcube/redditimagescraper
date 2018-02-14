@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"html"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -88,12 +89,17 @@ func loadAPI(subreddit string, outCh chan *imageLoadRequest) {
 		if width < *minWidth || height < *minHeight {
 			return
 		}
+
+		// if we care about checking the ratio, use this code:
 		//ratio := float64(width) / float64(height)
 		//if ratio < 1.5 || ratio > 2 {
 		//	//log.Printf("Ignoring %v because ratio %v(%vx%v) is not allowed", url, ratio, height, width)
 		//	return
 		//}
-		log.Println(url)
+
+		// shouldn't have to do unescape, but reddit introduced what seems to be a bug on 2/14/18
+		url = html.UnescapeString(url)
+
 		outCh <- &imageLoadRequest{
 			imageURL:  url,
 			imageID:   id,
