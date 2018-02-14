@@ -18,6 +18,7 @@ var (
 	outPath             = kingpin.Arg("outpath", "Directory where images will be saved").Required().ExistingDir()
 	client              = http.Client{Timeout: 30 * time.Second}
 	minWidth            = kingpin.Flag("minwidth", "Minimum width for an image to be downloaded").Default("4000").Int64()
+	minHeight           = kingpin.Flag("minheight", "Minimum height for an image to be downloaded").Default("2000").Int64()
 	subreddits          = kingpin.Arg("subreddits", "Subreddit urls on reddit").Required().Strings()
 )
 
@@ -68,7 +69,7 @@ type imageLoadRequest struct {
 }
 
 func loadAPI(subreddit string, outCh chan *imageLoadRequest) {
-	url := fmt.Sprintf("http://reddit.com/r/%v/top/.json?limit=500&t=week", subreddit)
+	url := fmt.Sprintf("http://reddit.com/r/%v/top/.json?limit=2000&t=week", subreddit)
 	apiB, err := httpGet(url)
 	if err != nil {
 		log.Panicf("Error loading the API: %v", err)
@@ -84,14 +85,14 @@ func loadAPI(subreddit string, outCh chan *imageLoadRequest) {
 		url = mustGetString(v, "data", "preview", "images", "[0]", "source", "url")
 		height := mustGetInt(v, "data", "preview", "images", "[0]", "source", "height")
 		width := mustGetInt(v, "data", "preview", "images", "[0]", "source", "width")
-		if width < *minWidth {
+		if width < *minWidth || height < *minHeight {
 			return
 		}
-		ratio := float64(width) / float64(height)
-		if ratio < 1.5 || ratio > 2 {
-			//log.Printf("Ignoring %v because ratio %v(%vx%v) is not allowed", url, ratio, height, width)
-			return
-		}
+		//ratio := float64(width) / float64(height)
+		//if ratio < 1.5 || ratio > 2 {
+		//	//log.Printf("Ignoring %v because ratio %v(%vx%v) is not allowed", url, ratio, height, width)
+		//	return
+		//}
 		log.Println(url)
 		outCh <- &imageLoadRequest{
 			imageURL:  url,
