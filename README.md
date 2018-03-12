@@ -1,5 +1,11 @@
 RedditImageScraper fetches high resolution images from reddit and places them into a directory.  I use it to so that I always have high res images for my desktop.
 
+Installation:
+
+```
+go get -u github.com/defcube/redditimagescraper
+```
+
 Example Usage (in the form of a bash script that I use for myself)
 
 ```
